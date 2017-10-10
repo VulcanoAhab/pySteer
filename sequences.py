@@ -1,4 +1,4 @@
-from movements import Movement
+from .movements import Movement
 
 class Sequence:
     """
