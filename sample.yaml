@@ -1,0 +1,69 @@
+name:
+  sample-job
+
+driver:
+  name:
+    driver_name
+
+request:
+  url:
+    http://sample-url.com
+  method:
+    GET
+
+data:
+  #html source pages
+  html:
+    where:
+      type:
+        s3
+      endpoint:
+        s3-endpoint
+    compress:
+      true
+  #extract data
+  extract:
+    where:
+      type:
+        s3
+      endpoint:
+        s3-endpoint
+      compress:
+        false #default
+
+sequence:
+  scope:
+    page
+  pipe:
+    - locate:
+      pattern:
+        xpath_pattern
+      type:
+        xpath
+      name:
+        target_containers
+    - extract:
+      from:
+        target_containers
+      text:
+        target_title
+      href:
+        target_url
+      persist:
+        true #default
+    - sequence:
+      scope:
+        #elements scope means sequence applied to each item
+        elements
+      target:
+        target_containers
+      pipe:
+        - action:
+          name:
+            click
+        - action:
+          name:
+            savePageSource
+        - action:
+          name:
+            back
