@@ -19,10 +19,16 @@ class Config:
     _CONFIG_FILE=""
 
     @classmethod
-    def setConfig(cls, filePath):
+    def setFile(cls, filePath):
         """
         """
         _CONFIG_FILE=filePath
+
+    @classmethod
+    def registerDrivers(cls, **kwargs):
+        """
+        """
+        cls._drivers=kwargs
 
     def __init__(self):
         """
@@ -33,6 +39,7 @@ class Config:
                 raise Exception("[-] No config to load")
         self.file=self._CONFIG_FILE
         self.load()
+        self.test()
 
     def load(self):
         """
@@ -45,3 +52,14 @@ class Config:
         fd.close()
         for key,values in cfg.items():
             setattr(self, key, values)
+
+    def test(self):
+        """
+        """
+        if self.driver["name"] not in self._drivers:
+            raise Exception("[-] Unkwon driver")
+
+    def getDriver(self):
+        """
+        """
+        return self._drivers[self.driver["name"]]
