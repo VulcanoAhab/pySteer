@@ -22,7 +22,7 @@ class Config:
     def setFile(cls, filePath):
         """
         """
-        _CONFIG_FILE=filePath
+        cls._CONFIG_FILE=filePath
 
     @classmethod
     def registerDrivers(cls, **kwargs):
@@ -59,7 +59,7 @@ class Config:
         if self.driver["name"] not in self._drivers:
             raise Exception("[-] Unkwon driver")
 
-    def getDriver(self):
+    def getDriver(self, **kwargs):
         """
         """
-        return self._drivers[self.driver["name"]]
+        return self._drivers[self.driver["name"]](**kwargs)
